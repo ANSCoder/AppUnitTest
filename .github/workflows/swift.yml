@@ -25,11 +25,11 @@ jobs:
       # Checkout the repository code
       - uses: actions/checkout@v4
 
-      # Set up Xcode (use apple/setup-xcode to specify the version of Xcode)
+      # Set up Xcode using maxim-lobanov/setup-xcode
       - name: Set up Xcode
-        uses: apple/setup-xcode@v3
+        uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '15.0.1'  # Specify your Xcode version
+          xcode-version: '15.0.1'  # Specify the Xcode version
 
       # Optionally resolve SPM dependencies
       - name: Resolve SPM dependencies
@@ -45,5 +45,3 @@ jobs:
       # Run the tests
       - name: Run tests
         run: swift test -v
-
-
