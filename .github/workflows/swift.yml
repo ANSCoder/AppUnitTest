@@ -2,7 +2,7 @@
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
 
 # GitHub Actions workflow for building a Swift project
-name: Swift
+name: Swift CI
 
 on:
   push:
@@ -26,9 +26,16 @@ jobs:
 
       # Step 3: Build the Xcode project
       - name: Build Xcode project
-        run: xcodebuild -scheme "AppUnitTest" -destination 'platform=iOS Simulator,name=iPhone 14'
+        run: |
+          xcodebuild -project "AppUnitTest.xcodeproj" \
+          -scheme "AppUnitTest" \
+          -destination 'platform=iOS Simulator,name=iPhone 15' \
+          CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGN_ENTITLEMENTS=""
 
       # Step 4: Run tests
       - name: Run tests
-        run: xcodebuild test -scheme "AppUnitTest" -destination 'platform=iOS Simulator,name=iPhone 14'
-
+        run: |
+          xcodebuild test -project "AppUnitTest.xcodeproj" \
+          -scheme "AppUnitTest" \
+          -destination 'platform=iOS Simulator,name=iPhone 15' \
+          CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGN_ENTITLEMENTS=""
