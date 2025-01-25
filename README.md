@@ -1,5 +1,3 @@
-Here's a draft README file for your `AppUnitTest` project:
-
 ---
 
 # AppUnitTest
