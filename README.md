@@ -1,5 +1,3 @@
----
-
 # AppUnitTest
 
 **AppUnitTest** is a sample Swift project designed to demonstrate unit testing in iOS development. The project includes configurations for GitHub Actions to automate builds and tests, ensuring robust and reliable code.
