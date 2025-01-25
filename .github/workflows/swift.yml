@@ -1,0 +1,36 @@
+# This workflow will build a Swift project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
+
+name: Run Tests on Pull Request
+
+on:
+  pull_request:
+    branches:
+      - "main"  # Adjust to the branch you want to target for PRs
+
+jobs:
+  test:
+    runs-on: macos-latest  # Use macOS for Swift
+
+    steps:
+      # Step 1: Checkout the code
+      - uses: actions/checkout@v3
+
+      # Step 2: Set up Xcode (optional but recommended)
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v2
+        with:
+          xcode-version: '15.0.1'  # Specify your Xcode version
+
+      # Step 3: Resolve dependencies only if Package.swift has changed
+      - name: Resolve dependencies (optional)
+        if: ${{ github.event_name == 'pull_request' && contains(github.event.head_commit.modified_files, 'Package.swift') }}
+        run: swift package resolve
+
+      # Step 4: Build the project
+      - name: Build the project
+        run: swift build -v  # Build your Swift project
+
+      # Step 5: Run unit tests
+      - name: Run unit tests
+        run: swift test -v  # Run tests with verbose output
