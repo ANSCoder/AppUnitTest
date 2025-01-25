@@ -1,0 +1,49 @@
+# This workflow will build a Swift project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
+
+# This is a GitHub Actions workflow file for building a Swift project.
+name: Swift  # Name of the workflow
+
+# Define the events that trigger the workflow
+on:
+  # Trigger on push events to the main branch
+  push:
+    branches: [ "main" ]
+  # Trigger on pull request events to the main branch
+  pull_request:
+    branches: [ "main" ]
+
+# Define the jobs in the workflow
+jobs:
+  # Define a job called "build"
+  build:
+    # Specify the environment for the job (in this case, macOS with Xcode)
+    runs-on: macos-latest
+
+    # Define the steps in the job
+    steps:
+      # Checkout the repository code
+      - uses: actions/checkout@v4
+
+      # Set up Xcode (use apple/setup-xcode to specify the version of Xcode)
+      - name: Set up Xcode
+        uses: apple/setup-xcode@v3
+        with:
+          xcode-version: '15.0.1'  # Specify your Xcode version
+
+      # Optionally resolve SPM dependencies
+      - name: Resolve SPM dependencies
+        run: |
+          if [ -f Package.swift ]; then
+            swift package resolve
+          fi
+
+      # Build the Swift project
+      - name: Build
+        run: swift build -v
+
+      # Run the tests
+      - name: Run tests
+        run: swift test -v
+
+
